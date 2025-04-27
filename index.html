@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Fishing Rhythm Game</title>
+    <link rel="stylesheet" href="styles/styles.css" />
+</head>
+<body>
+<div id="background-overlay"></div>
+<div id="background-old" class="background-layer"></div>
+<div id="background-new" class="background-layer"></div>
+
+<!-- 🎣 Home Page -->
+<div id="home-page">
+    <div id="home-title"><h1>Fishing Rhythm Game</h1></div>
+    <div id="home-buttons">
+        <button id="start-btn" class="image-button"><span class="button-label">Start</span></button>
+        <button id="settings-btn" class="image-button"><span class="button-label">Settings</span></button>
+        <button id="tutorial-btn" class="image-button"><span class="button-label">Tutorial</span></button>
+    </div>
+</div>
+
+<!-- ⚙️ Settings Page -->
+<div id="settings-page" style="display: none;">
+    <div class="settings-options">
+        <h1>Settings</h1>
+        <div class="setting">
+            <label for="volume-control">Music Volume:</label>
+            <input type="range" id="volume-control" min="0" max="1" step="0.1" value="1">
+        </div>
+    </div>
+    <button id="back-from-settings-btn" class="image-button"><span class="button-label">Back to Home</span></button>
+</div>
+
+<!-- 📖 Tutorial Page -->
+<div id="tutorial-page" style="display: none;">
+    <h1>How to Play</h1>
+    <div class="tutorial-content">
+        <h2>🎮 Game Basics</h2>
+        <p>Press <strong>W</strong> or <strong>E</strong> when notes reach the red hit zone to catch fish!</p>
+        <p>Better timing = higher score and bigger fish!</p>
+
+        <h2>⚙️ Controls & Settings</h2>
+        <p>Pause with <strong>ESC</strong>. Customize settings in the menu.</p>
+
+        <h2>🏆 Scoring & Rewards</h2>
+        <p>Each catch = <strong>100 pts</strong>. Bigger fish on harder levels!</p>
+
+        <h2>🎣 Fishing Tips</h2>
+        <ul>
+            <li>Focus on the rhythm</li>
+            <li>Start with Shallow River</li>
+            <li>Adjust note speed if needed</li>
+            <li>Perfect timing = big fish!</li>
+        </ul>
+    </div>
+    <button id="back-from-tutorial-btn" class="image-button"><span class="button-label">Back to Home</span></button>
+</div>
+
+<!-- 📊 Main Menu -->
+<div id="main-menu" style="display: none;">
+    <div id="main-title"><h2>Select a Continent</h2></div>
+    <div id="difficulty-buttons">
+        <button id="easy-btn" class="image-button"><span class="button-label">America</span></button>
+        <button id="medium-btn" class="image-button"><span class="button-label">Asia</span></button>
+        <button id="hard-btn" class="image-button"><span class="button-label">Africa</span></button>
+    </div>
+    <button id="back-from-main-btn" class="image-button"><span class="button-label">Back to Home</span></button>
+</div>
+
+<!-- 🎵 Song Selection Menu -->
+<div id="song-menu" style="display: none;">
+    <h2>Select a Fishing Spot</h2>
+    <div id="song-list"></div>
+    <div id="song-menu-buttons">
+        <button id="reset-scores-btn" class="image-button"><span class="button-label">Reset Scores</span></button>
+        <button id="back-btn" class="image-button"><span class="button-label">Back to Locations</span></button>
+    </div>
+</div>
+
+<!-- 🎮 Game Container -->
+<div id="game-container" style="display: none;">
+    <div id="note-bar">
+        <div id="hitzone"></div>
+        <div id="note-container"></div>
+    </div>
+    <div id="hud">
+        Score: <span id="score">0</span> |
+        Passed Beats: <span id="miss-count">0</span>
+    </div>
+    <div id="beatmap-name">Currently Catching:</div>
+    <div id="stopwatch-container"><span id="stopwatch">0:00 / 0:00</span></div>
+
+    <button id="pause-btn" class="image-button">
+        <span class="button-label">Pause</span>
+    </button>
+
+    <div id="feedback" class="feedback"></div>
+</div>
+
+<!-- ⏸ Pause Overlay -->
+<div id="pause-overlay">
+    <div class="pause-menu">
+        <h2>Paused</h2>
+        <button id="retry-btn" class="image-button">
+            <span class="button-label">Retry</span>
+        </button>
+        <button id="song-select-btn" class="image-button">
+            <span class="button-label">Song Select</span>
+        </button>
+        <button id="main-menu-btn" class="image-button">
+            <span class="button-label">Main Menu</span>
+        </button>
+    </div>
+
+</div>
+
+<!-- 🏁 Results Screen -->
+<div id="results-screen" style="display: none;">
+    <h2>Game Over!</h2>
+    <p>Song: <span id="beatmap-name-result"></span></p>
+    <p>Your final score: <span id="final-score"></span></p>
+    <p id="high-score-result"></p>
+
+    <!-- New message element for "No fish this time" -->
+    <p id="no-fish-message" style="display: none; color: #f44336;"></p>
+
+    <button id="retry-from-results-btn" class="image-button"><span class="button-label">Play Again</span></button>
+    <button id="go-back-song-select-btn" class="image-button"><span class="button-label">Fish Select</span></button>
+    <button id="main-menu-from-results-btn" class="image-button"><span class="button-label">Main Menu</span></button>
+</div>
+
+<!-- 🐟 Fish Image -->
+<div id="fish-image-container" class="fish-container">
+    <div class="fish-box">
+        <img id="fish-image" src="" alt="Caught Fish" />
+        <div id="fish-size-display" class="fish-size-message"></div>
+    </div>
+</div>
+
+
+<!-- 🔊 Audio -->
+<audio id="bg-music" preload="auto"></audio>
+<audio id="don-sfx" src="audio/ka.mp3"></audio>
+<audio id="ka-sfx"  src="audio/don.wav"></audio>
+
+<!-- ⏱ Countdown -->
+<div id="countdown"></div>
+
+<!-- 📜 Game Script -->
+<script type="module" src="scripts/game.js"></script>
+</body>
+</html>
